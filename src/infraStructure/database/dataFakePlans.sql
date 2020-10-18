@@ -1,37 +1,3 @@
-
-
-api
-	post
-	put
-	delete
-	get
-	
-
-rf
---
-	. Buscas sempre usando DDD
-		. tipo
-		. operadora
-		. plano
-		
-	. PLANOS (plans)
-		. id
-		. descricao/especificacao
-		. minutos
-		. franquia internet
-		. valor
-		. tipo (controle, pós, pré)
-		. operadora
-		
-	. DISPONIBILIDADE do plano (availability)
-		. plano_id
-		. DDD
-		
-
-
-
-
-
 insert into plans (description, minutes, internet, cost, type, operator) values ("2 novo gb teste", 10000, 2, 0, 'PRE', 'TIM' );
 insert into plans (description, minutes, internet, cost, type, operator) values ("4 novo gb teste", 10000, 4, 40.75, 'POS', 'TIM' );
 insert into plans (description, minutes, internet, cost, type, operator) values ("5 gb teste", 10000, 5, 49.99, 'CONTROLE', 'VIVO' );
