@@ -31,7 +31,6 @@ rf
 
 
 
-
 insert into plans (description, minutes, internet, cost, type, operator) values ("2 novo gb teste", 10000, 2, 0, 'PRE', 'TIM' );
 insert into plans (description, minutes, internet, cost, type, operator) values ("4 novo gb teste", 10000, 4, 40.75, 'POS', 'TIM' );
 insert into plans (description, minutes, internet, cost, type, operator) values ("5 gb teste", 10000, 5, 49.99, 'CONTROLE', 'VIVO' );

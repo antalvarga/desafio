@@ -5,7 +5,7 @@
         "./src/infraStructure/database/migrations/*.ts"
     ]
     , "entities": [
-        "./src/models"
+        "./src/models/*.ts"
     ]
     , "cli" : {
         "migrationsDir": "./src/infraStructure/database/migrations"
