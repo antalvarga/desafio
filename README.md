@@ -1,43 +1,62 @@
 
+### Desafio backend
 
-api
+Crie uma API para cadastro, atualização, remoção e listagem de planos de telefonia. Deve ser possível realizar buscas por tipo, operadora ou plano específico, sempre utilizando também o DDD.
+Características dos planos: Código do plano, Minutos, Franquia de internet, Valor, Tipo (Controle, Pós, Pré) e Operadora
+Obs.: Cada plano pode estar ou não disponível para um ou mais DDDs.
+
+
+> Algum projeto front-end usará nossa API
+> MÉTODOS:
 	post
 	put
 	delete
 	get
-	
-
-rf
---
-	. Buscas sempre usando DDD
-		. tipo
-		. operadora
-		. plano
-		
-	. PLANOS (plans)
-		. id
-		. descricao/especificacao
-		. minutos
-		. franquia internet
-		. valor
-		. tipo (controle, pós, pré)
-		. operadora
-		
-	. DISPONIBILIDADE do plano (availability)
-		. plano_id
-		. DDD
-		
 
 
 
+### R.F.:
+> Buscas sempre usando DDD
+	. tipo
+	. operadora
+	. plano
 
-insert into plans (description, minutes, internet, cost, type, operator) values ("2 novo gb teste", 10000, 2, 0, 'PRE', 'TIM' );
-insert into plans (description, minutes, internet, cost, type, operator) values ("4 novo gb teste", 10000, 4, 40.75, 'POS', 'TIM' );
-insert into plans (description, minutes, internet, cost, type, operator) values ("5 gb teste", 10000, 5, 49.99, 'CONTROLE', 'VIVO' );
-insert into plans (description, minutes, internet, cost, type, operator) values ("8 gb teste", 10000, 8, 80, 'CONTROLE', 'OI' );
-insert into plans (description, minutes, internet, cost, type, operator) values ("10 gb teste", 10000,10, 100, 'CONTROLE', 'CLARO' );
-insert into plans (description, minutes, internet, cost, type, operator) values ("12 gb teste", 10000,12, 0, 'PRE', 'OI' );
-insert into plans (description, minutes, internet, cost, type, operator) values ("14 gb teste", 10000,14, 140.01, 'PRE', 'CLARO' );
-insert into plans (description, minutes, internet, cost, type, operator) values ("15 gb teste", 10000,16, 160, 'POS', 'TIM' );
-insert into plans (description, minutes, internet, cost, type, operator) values ("25 gb teste", 10000,16, 160.99, 'POS', 'VIVO' );
+
+
+### O que usei:
+
+- Node
+- Typescript
+- Express
+- Sqlite
+- TypeOrm
+- Cors
+
+
+#### Requirements
+- Node + NPM
+- Yarn
+- 
+
+#### Running the projects
+
+> Server Project
+
+- Accessar a pasta backend e executar yarn install para instalar as dependências
+- Acessar a pasta do projeto e executar as migrations para criar o banco de dados
+	> yarn typeorm migration:run
+	ou 
+	> yarn typeorm migration:revert
+
+- Depois de tudo instalado e o banco criado executar o projeto 
+	> yarn dev
+
+- Feito isso acessar a url no seu browser [localhost](http://localhost:3333) ;
+- Execute the server project;
+
+
+
+## Thank you
+ 
+[Antal Varga](http://asvarga@gmail.com) 
 

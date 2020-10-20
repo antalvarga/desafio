@@ -36,4 +36,8 @@ export default class Plans {
     // @JoinColumn( {name: 'plans_id' })
     // availability: Availability;
 
+    @OneToMany(() => Availability, availability => availability.plans )
+    @JoinColumn({ name: 'plans_id'})
+    availabilities: Availability[];
+
 }

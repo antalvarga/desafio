@@ -51,8 +51,6 @@ export default {
         const {id} = request.params;
 
         const plansRepository = getRepository(Plans);
-
-
         
         //     const plans = await plansRepository.findOneOrFail(id, {
         //     relations: [ 'availability' ]
@@ -67,14 +65,17 @@ export default {
 
         const plansRepository = getRepository(Plans);
 
-        
         const {ddd, type} = request.params;
+
+
+        console.log(` --- PASSEI NO showByDddType --- ${ddd} - ${type}`  );
 
         // TODO - Pegar relacionamento
         // https://github.com/typeorm/typeorm/blob/master/docs/find-options.md
         
         //const plans = await plansRepository.find({ where: { ddd, type } });
-        
+
+/*        
         const plans = await plansRepository.find({
             // join: {
             //     alias: "availability",
@@ -83,18 +84,60 @@ export default {
             //                     }
             // } 
             // ,
-             where: { type }
-            
+             where: { type }            
         })
+*/
 
+
+
+
+
+        // *** funcionou retornando resultados ***
+        // const plans = await plansRepository.find();
+        // const plans = await plansRepository.find( {where: {type : 'POS'  }} );
+
+
+        // *** não funcionou  ***
+        // retorna []
+        //const plans = await plansRepository.find( {where: {type: type  }});
+
+        // retorna []
+        //const plans = await plansRepository.find( {where: {type : {type}  }} );
+
+        // retorna []
+        // const plans = await plansRepository.find( {where: { type }});
+        // const plans = await plansRepository.find( {where: {type: type }} );
+        const plans = await plansRepository.find(
+            { 
+                // where: {type: 'POS' }
+                where: {type: type }
+                , order: {operator: 'ASC', id: 'ASC'}
+                , select: ["id", "description", "operator"]
+            }
+
+        );
+        
+
+
+        console.log( type );
         console.log( plans );
+
+
+
+
+
+
+
 
 
         //     const plans = await plansRepository.find({
         //      relations: ['availability']
         //  });
 
-        return response.json( plansView.renderMany(plans));
+        //return response.json( plansView.renderMany(plans));
+        //return response.json( {message: 'passou' } )
+        return response.json( plans )
+
     }
 
     , async create (request: Request, response: Response) {
@@ -197,8 +240,7 @@ export default {
         const plan = await plansRepository.findOne( id );
 
         return response.status(200).json( plan );
-    }
-    
+    }    
 
     , async delete (request: Request, response: Response) {      
 
@@ -214,5 +256,39 @@ export default {
 
         return response.status(200).json( plan );
     }
+     
+    
+// showByDddPlan
+    , async showByTeste(request: Request, response: Response) {
+
+        const plansRepository = getRepository(Plans);
+
+        const {parm1, parm2} = request.params;
+
+
+        console.log(` --- PASSEI NO showByTeste --- ${parm1} - ${parm2}`  );
+
+        const plans = await plansRepository.find(
+            { 
+                
+                where: {id: parm1 }
+                , order: {operator: 'ASC', id: 'ASC'}
+                , select: ["id", "description", "operator"]
+            }
+
+        );
         
+
+
+        console.log( `parm1: ${parm1} - parm2: ${parm2}` );
+        console.log( plans );
+
+
+
+        //return response.json( plansView.renderMany(plans));
+        //return response.json( {message: 'passou' } )
+        return response.json( plans )
+
+    }
+
 };

@@ -25,7 +25,7 @@ export class createAvailability1603057525157 implements MigrationInterface {
                     , type: 'varchar(4)'
                     ,
                 } 
-            ]
+            ] 
             , foreignKeys: [
                 {
                     name: 'FK_availability_plans'

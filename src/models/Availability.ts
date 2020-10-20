@@ -11,6 +11,7 @@ export default class Availability {
     ddd: string;
 
     @ManyToOne(() => Plans, plans => plans.id)
+    // ou id ???
     @JoinColumn( { name: 'plans_id' } )
     plans: Plans;
 }
