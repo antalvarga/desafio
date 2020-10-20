@@ -29,15 +29,14 @@ export default class Plans {
     operator: string;
 
 
-    // TODO - RELACIONAMENTO
-    // @OneToMany( () => Availability, availability => availability.plans, {
-    //     cascade: [ 'insert', 'update']
-    // })
-    // @JoinColumn( {name: 'plans_id' })
-    // availability: Availability;
 
-    @OneToMany(() => Availability, availability => availability.plans )
+    // TODO - RELACIONAMENTO
+    
+    @OneToMany(() => Availability, availability => availability.plans, {
+        cascade: ['insert', 'update']
+    } )
     @JoinColumn({ name: 'plans_id'})
     availabilities: Availability[];
+    
 
 }

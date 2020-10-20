@@ -5,16 +5,10 @@ import {getRepository} from 'typeorm';
 import plansView from '../views/plans_view';
 
 import Plans from '../models/Plans';
+import Availability from '../models/Availability';
+
 
 import * as Yup from 'yup';
-
-
-// Os métodos padrão do controller são
-// Index
-// Show
-// Create
-// Update
-// Delete
 
 
 
@@ -22,12 +16,8 @@ import * as Yup from 'yup';
 export default {
 
     // todo 
-    // const plansRepository = getRepository(Plans);
-
-
-    // showByDddType 
-    // showByDddPlan
-    // showByDddOperator
+    // para todas as consultas retornar availability
+    // para todas as consultas filtrar por ddd
 
 
     async index(request: Request, response: Response) {
@@ -67,84 +57,58 @@ export default {
 
         const {ddd, type} = request.params;
 
-
-        console.log(` --- PASSEI NO showByDddType --- ${ddd} - ${type}`  );
-
-        // TODO - Pegar relacionamento
-        // https://github.com/typeorm/typeorm/blob/master/docs/find-options.md
-        
-        //const plans = await plansRepository.find({ where: { ddd, type } });
-
-/*        
-        const plans = await plansRepository.find({
-            // join: {
-            //     alias: "availability",
-            //     leftJoinAndSelect: {
-            //         id: "availability.id"
-            //                     }
-            // } 
-            // ,
-             where: { type }            
-        })
-*/
-
-
-
-
-
-        // *** funcionou retornando resultados ***
-        // const plans = await plansRepository.find();
-        // const plans = await plansRepository.find( {where: {type : 'POS'  }} );
-
-
-        // *** não funcionou  ***
-        // retorna []
-        //const plans = await plansRepository.find( {where: {type: type  }});
-
-        // retorna []
-        //const plans = await plansRepository.find( {where: {type : {type}  }} );
-
-        // retorna []
-        // const plans = await plansRepository.find( {where: { type }});
-        // const plans = await plansRepository.find( {where: {type: type }} );
         const plans = await plansRepository.find(
             { 
-                // where: {type: 'POS' }
-                where: {type: type }
+                where: {type: type } 
                 , order: {operator: 'ASC', id: 'ASC'}
                 , select: ["id", "description", "operator"]
             }
-
         );
+
+        return response.json( plansView.renderMany(plans));
         
-
-
-        console.log( type );
-        console.log( plans );
-
-
-
-
-
-
-
-
-
-        //     const plans = await plansRepository.find({
-        //      relations: ['availability']
-        //  });
-
-        //return response.json( plansView.renderMany(plans));
-        //return response.json( {message: 'passou' } )
-        return response.json( plans )
-
     }
 
-    , async create (request: Request, response: Response) {
+    , async showByDddPlan(request: Request, response: Response) {
 
-        // TODO preciso debugar para achar os 
-        // ddds de availability
-        console.log( request.body);
+        const plansRepository = getRepository(Plans);
+
+        const {ddd, plan} = request.params;
+
+        const plans = await plansRepository.find(
+            { 
+                where: {id: plan }
+                , order: {operator: 'ASC', id: 'ASC'}
+                //, select: ["id", "description", "operator"]
+            }
+        );
+
+        return response.json( plansView.renderMany(plans));
+        
+    }
+
+    , async showByDddOperator(request: Request, response: Response) {
+
+        const plansRepository = getRepository(Plans);
+
+        const {ddd, operator} = request.params;
+
+        const plans = await plansRepository.find(
+            { 
+                where: { operator: operator }
+                , order: {operator: 'ASC', id: 'ASC'}
+                //, select: ["id", "description", "operator"]
+            }
+        );
+
+        return response.json( plansView.renderMany(plans));
+        
+    }
+
+
+
+
+    , async create (request: Request, response: Response) {
 
         const {
             description
@@ -152,14 +116,13 @@ export default {
             , internet
             , cost
             , type
-            , operator
-            
+            , operator 
+            , availabilities 
+            ,
+
         } = request.body;
 
         const plansRepository = getRepository(Plans);
-
-        // preciso avaliar se os ddds virão no request.body
-
 
         const data = {
             description
@@ -168,9 +131,9 @@ export default {
             , cost
             , type
             , operator
+            , availabilities
             ,
         }
-
 
         const schema = Yup.object().shape({
 
@@ -189,9 +152,9 @@ export default {
 
         await plansRepository.save( plans );
 
+
         return response.status(201).json( plans );
     }
-
 
     , async update (request: Request, response: Response) {      
 
@@ -258,37 +221,7 @@ export default {
     }
      
     
-// showByDddPlan
-    , async showByTeste(request: Request, response: Response) {
-
-        const plansRepository = getRepository(Plans);
-
-        const {parm1, parm2} = request.params;
 
 
-        console.log(` --- PASSEI NO showByTeste --- ${parm1} - ${parm2}`  );
-
-        const plans = await plansRepository.find(
-            { 
-                
-                where: {id: parm1 }
-                , order: {operator: 'ASC', id: 'ASC'}
-                , select: ["id", "description", "operator"]
-            }
-
-        );
-        
-
-
-        console.log( `parm1: ${parm1} - parm2: ${parm2}` );
-        console.log( plans );
-
-
-
-        //return response.json( plansView.renderMany(plans));
-        //return response.json( {message: 'passou' } )
-        return response.json( plans )
-
-    }
 
 };
