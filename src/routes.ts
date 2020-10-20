@@ -16,5 +16,10 @@ routes.post('/plans', PlansController.create);
 routes.get('/plans', PlansController.index);
 routes.get('/plans/:id', PlansController.show);
 
+routes.get('/plans/byDddRota:ddd&:type', PlansController.showByDddType);
+
+routes.put('/plans/:id', PlansController.update);
+routes.delete('/plans/:id', PlansController.delete);
+
 
 export default routes;
