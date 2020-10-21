@@ -15,25 +15,11 @@ import * as Yup from 'yup';
 
 export default {
 
-    // ***
-    // todo 
-    // para todas as consultas retornar availability
-    // para todas as consultas filtrar por ddd
-    // ***
-
-
     async index(request: Request, response: Response) {
 
         const plansRepository = getRepository(Plans);
 
-
-        // TODO - Pegar relacionamento
         const plans = await plansRepository.find();
-        
-
-        //     const plans = await plansRepository.find({
-        //      relations: ['availability']
-        //  });
 
         return response.json( plansView.renderMany(plans));
     }

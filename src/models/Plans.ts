@@ -29,9 +29,6 @@ export default class Plans {
     operator: string;
 
 
-
-    // TODO - RELACIONAMENTO
-    
     @OneToMany(() => Availability, availability => availability.plans, {
         cascade: ['insert', 'update']
     } )
