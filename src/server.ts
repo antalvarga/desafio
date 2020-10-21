@@ -26,3 +26,4 @@ app.use(errorHandler);
 
 app.listen(3333);
     
+console.log( '>>> App listening on http://localhost:3333');

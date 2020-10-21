@@ -12,7 +12,7 @@ import PlansController from './controllers/plansController';
 const routes = Router();
 
 
-routes.post('/plans', PlansController.create);
+
 routes.get('/plans', PlansController.index);
 routes.get('/plans/:id', PlansController.show);
 
@@ -20,7 +20,7 @@ routes.get('/plans/byDddType/:ddd/:type', PlansController.showByDddType);
 routes.get('/plans/byDddPlan/:ddd/:plan', PlansController.showByDddPlan);
 routes.get('/plans/byDddOperator/:ddd/:operator', PlansController.showByDddOperator);
 
-
+routes.post('/plans', PlansController.create);
 routes.put('/plans/:id', PlansController.update);
 routes.delete('/plans/:id', PlansController.delete);
 

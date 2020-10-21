@@ -15,9 +15,11 @@ import * as Yup from 'yup';
 
 export default {
 
+    // ***
     // todo 
     // para todas as consultas retornar availability
     // para todas as consultas filtrar por ddd
+    // ***
 
 
     async index(request: Request, response: Response) {
@@ -57,13 +59,14 @@ export default {
 
         const {ddd, type} = request.params;
 
-        const plans = await plansRepository.find(
-            { 
-                where: {type: type } 
-                , order: {operator: 'ASC', id: 'ASC'}
-                , select: ["id", "description", "operator"]
-            }
-        );
+        const plans = await plansRepository
+            .createQueryBuilder()
+            .select( ["plns.id", "plns.description", "plns.operator", "avl.ddd"])
+            .from( Plans, 'plns')
+            .innerJoin('Availability', 'avl', 'avl.plans_id = plns.id')
+            .where('plns.type = :type', {type:type})
+            .andWhere('avl.ddd = :ddd', {ddd:ddd})
+            .getMany();
 
         return response.json( plansView.renderMany(plans));
         
@@ -75,13 +78,14 @@ export default {
 
         const {ddd, plan} = request.params;
 
-        const plans = await plansRepository.find(
-            { 
-                where: {id: plan }
-                , order: {operator: 'ASC', id: 'ASC'}
-                //, select: ["id", "description", "operator"]
-            }
-        );
+        const plans = await plansRepository
+            .createQueryBuilder()
+            .select( ["plns.id", "plns.description", "plns.operator", "avl.ddd"])
+            .from( Plans, 'plns')
+            .innerJoin('Availability', 'avl', 'avl.plans_id = plns.id')
+            .where('plns.id = :plan', {plan:plan})
+            .andWhere('avl.ddd = :ddd', {ddd:ddd})
+            .getMany();
 
         return response.json( plansView.renderMany(plans));
         
@@ -93,20 +97,18 @@ export default {
 
         const {ddd, operator} = request.params;
 
-        const plans = await plansRepository.find(
-            { 
-                where: { operator: operator }
-                , order: {operator: 'ASC', id: 'ASC'}
-                //, select: ["id", "description", "operator"]
-            }
-        );
+        const plans = await plansRepository
+            .createQueryBuilder()
+            .select(['pls.id', 'pls.description', 'pls.operator'] )
+            .from( Plans, 'pls')            
+            .innerJoin('Availability', 'avl', 'avl.plans_id = pls.id' )
+            .where( 'pls.operator = :operator', {operator: operator})
+            .andWhere( 'avl.ddd = :ddd', {ddd:ddd})
+            .getMany()
 
         return response.json( plansView.renderMany(plans));
         
     }
-
-
-
 
     , async create (request: Request, response: Response) {
 
@@ -211,17 +213,13 @@ export default {
 
         const plansRepository = getRepository(Plans);
 
-        // preciso avaliar se os ddds virão no request.body
-        
         await plansRepository.delete( id );
         
         const plan = await plansRepository.findOne( id );
 
         return response.status(200).json( plan );
     }
-     
-    
-
+ 
 
 
 };
